@@ -25,6 +25,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -34,6 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.content.Intent;
+
+import com.antnest.antville.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import android.os.Build;
@@ -62,6 +65,7 @@ public class VideoPicturePickerActivity extends Activity {
     private RelativeLayout imageVideoContainerParent;
     public int DeviceImageVideoGridview_destination_height;
     private FakeR fakeR;
+    public boolean isSelectMultiple = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -734,5 +738,37 @@ public class VideoPicturePickerActivity extends Activity {
         return result;
     }
 
+    // Customized
+    public void selectMultiple(View v)
+    {
+        // set adapter
+        DeviceImageVideoGridview_Adapter = new DeviceImageVideoGridviewAdapter(this, fakeR.getId("layout", "simple_list_item_1"), data, Glide.with(this), this, display_video_time);
+        DeviceImageVideoGridview.setAdapter(DeviceImageVideoGridview_Adapter);
 
+        // set button id
+        Button MultipleButton = findViewById(R.id.selectMultipleButton);
+
+        if (this.isSelectMultiple)
+        {
+            // set single
+            DeviceImageVideoGridview_Adapter.setMultiSelectionActiv(false);
+
+            // set button name
+            MultipleButton.setText("Select Multiple");
+
+            // set var
+            this.isSelectMultiple = false;
+        }
+        else
+        {
+            // set multiple
+            DeviceImageVideoGridview_Adapter.setMultiSelectionActiv(true);
+
+            // set button name
+            MultipleButton.setText("Select Single");
+
+            // set var
+            this.isSelectMultiple = true;
+        }
+    }
 }
